@@ -58,4 +58,26 @@ Employee.deleteEmp = (id, resp) => {
   });
 };
 
+// update an employee
+Employee.updateEmp = (id, newEmpData, resp) => {
+  db.query(
+    "UPDATE employees SET employee_name=? employee_salary=? employee_age=? profile_image=? where id=?",
+    [
+      newEmpData.employee_name,
+      newEmpData.employee_salary,
+      newEmpData.employee_age,
+      newEmpData.profile_image,
+      id,
+    ],
+    (err, res) => {
+      if (err) {
+        console.log("Error during the update!");
+        resp(null, err);
+      } else {
+        resp(null, res);
+      }
+    }
+  );
+};
+
 module.exports = Employee;

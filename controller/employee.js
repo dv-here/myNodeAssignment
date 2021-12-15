@@ -1,9 +1,10 @@
+const Employee = require("../model/employeeModel");
 const EmployeeModel = require("../model/employeeModel");
 
 exports.getEmployees = (req, res) => {
   EmployeeModel.getAllEmp((err, employees) => {
     if (err) res.send(err);
-    res.status(200).send(employees);
+    res.status(200).send({ count: employees.length, data: employees });
   });
 };
 
@@ -12,7 +13,7 @@ exports.getEmployeeById = (req, res) => {
   EmployeeModel.getEmpById(req.params.id, (err, employee) => {
     if (err) res.status(404).send(err);
     console.log(req.params.id);
-    res.status(200).send(employee);
+    res.status(200).json({ count: employee.length, data: employee });
   });
 };
 
@@ -34,5 +35,14 @@ exports.deleteEmployee = (req, res) => {
     if (err) res.status(404).send(err);
     console.log(req.params.id);
     res.status(200).send(employee);
+  });
+};
+
+// update an employee
+exports.updateEmployee = (req, res) => {
+  const newEmployeeData = new Employee(req.body);
+  EmployeeModel.updateEmp(req.params.id, newEmployeeData, (err, employee) => {
+    if (err) res.status(400).send(err);
+    res.status(200).send({ status: "update success", data: employee });
   });
 };

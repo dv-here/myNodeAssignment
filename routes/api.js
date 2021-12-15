@@ -13,4 +13,6 @@ app.post("/", employeeController.createEmployee);
 // endpoint to delete an employee
 app.delete("/:id", employeeController.deleteEmployee);
 
+// endpoint to update an employee
+app.put("/:id", employeeController.updateEmployee);
 module.exports = app;
