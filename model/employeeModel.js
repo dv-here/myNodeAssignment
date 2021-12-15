@@ -47,12 +47,12 @@ Employee.createEmp = (emp, resp) => {
 
 // delete and employee based on id
 Employee.deleteEmp = (id, resp) => {
-  db.query("DELETE * FROM employees WHERE id=?", id, (err, res) => {
+  db.query("DELETE FROM employees WHERE id=?", id, (err, res) => {
     if (err) {
       console.log(`Error fetching the employee`, err);
       resp(null, err);
     } else {
-      console.log(`Employees deleted!`);
+      //   console.log(`Employees deleted!`);
       resp(null, res);
     }
   });
