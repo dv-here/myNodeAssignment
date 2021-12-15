@@ -8,16 +8,32 @@ let Employee = function (employee) {
 };
 
 // get all employees
-Employee.getAllEmp = (resp) => {
-  db.query("SELECT * FROM employees;", (err, res) => {
-    if (err) {
-      console.log(`Error fetching the employee`, err);
-      resp(null, err);
-    } else {
-      console.log(`Employees retrieved!`);
-      resp(null, res);
-    }
-  });
+Employee.getAllEmp = (page, limit, resp) => {
+  const offset = (page - 1) * limit;
+  if (page == 0) {
+    db.query(`SELECT * FROM employees;`, (err, res) => {
+      if (err) {
+        console.log(`Error fetching the employee`, err);
+        resp(null, err);
+      } else {
+        console.log(`Employees retrieved!`);
+        resp(null, res);
+      }
+    });
+  } else {
+    db.query(
+      `SELECT * FROM employees LIMIT ${limit} OFFSET ${offset};`,
+      (err, res) => {
+        if (err) {
+          console.log(`Error fetching the employee`, err);
+          resp(null, err);
+        } else {
+          console.log(`Employees retrieved!`);
+          resp(null, res);
+        }
+      }
+    );
+  }
 };
 
 //get employee by id

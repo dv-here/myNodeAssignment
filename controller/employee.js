@@ -2,9 +2,17 @@ const Employee = require("../model/employeeModel");
 const EmployeeModel = require("../model/employeeModel");
 
 exports.getEmployees = (req, res) => {
-  EmployeeModel.getAllEmp((err, employees) => {
+  let page = req.query.page || 1;
+  let limit = 2;
+  if (req.url == "/all") {
+    page = 0;
+    limit = 0;
+  }
+  EmployeeModel.getAllEmp(page, limit, (err, employees) => {
     if (err) res.send(err);
-    res.status(200).send({ count: employees.length, data: employees });
+    res
+      .status(200)
+      .send({ page: page, count: employees.length, data: employees });
   });
 };
 
